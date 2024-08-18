@@ -4,6 +4,7 @@ import pandas as pd
 #from textblob import TextBlob
 import matplotlib.pyplot as plt
 import seaborn as sns
+import PIL.Image as Image
 
 
 # Load the Ecomlytics logo

@@ -11,7 +11,10 @@ def display_sidebar():
     Display the sidebar with a logo image and documentation.
     """
     image_path = "Logo/Ecomlytics1.png"
-    st.sidebar.image(image_path, use_column_width=True)
+    # Sidebar content
+    st.sidebar.image(image_path, width=150)  # Adjust the width to your preference
+    st.sidebar.title("Ecomlytics")
+    st.sidebar.write("Your partner in e-commerce analytics.")
 
     with st.sidebar.expander("Documentation", icon="📚"):
        st.write("""
@@ -161,26 +164,22 @@ def perform_web_scraping(input_filepath):
 def generate_output_files(data, output_format):
     output_files = []
     df = pd.DataFrame(data)
-    
-    # Ensure all columns are present in the DataFrame, create missing columns with empty values
-    for column in columns_order:
-        if column not in df.columns:
-            df[column] = ""
+
   
     # Generate the output files in the selected format(s)
     if 'Excel' in output_format:
         excel_file = 'output.xlsx'
-        filtered_df.to_excel(excel_file, index=False)
+        df.to_excel(excel_file, index=False)
         output_files.append(excel_file)
         
     if 'JSON' in output_format:
         json_file = 'output.json'
-        filtered_df.to_json(json_file, orient='records')
+        df.to_json(json_file, orient='records')
         output_files.append(json_file)
         
     if 'CSV' in output_format:
         csv_file = 'output.csv'
-        filtered_df.to_csv(csv_file, index=False)
+        df.to_csv(csv_file, index=False)
         output_files.append(csv_file)
 
     return output_files

@@ -44,7 +44,7 @@ def display_sidebar():
        
        
 
-def perform_web_scraping(input_filepath):
+def scrape_walmart(item):
    # url = f"https://www.walmart.com/ip/{listing_id}"
     #headers = {"User-Agent": "Mozilla/5.0"}
     keywords_filename = "keywords.txt"  
@@ -79,6 +79,24 @@ def perform_web_scraping(input_filepath):
     #    price_text = price['content']
     #    return {"price": price_text}
     #return {"price": "N/A"}
+# Determine the file type and read the data accordingly
+def perform_web_scraping(input_filepath):
+    _, file_extension = os.path.splitext(input_filepath)
+    
+    if file_extension == '.csv':
+        listings = pd.read_csv(input_filepath)
+    elif file_extension == '.txt':
+        listings = pd.read_csv(input_filepath, header=None, names=['item'])
+    else:
+        st.error("Unsupported file type. Please upload a CSV or TXT file.")
+        return []
+
+    data = []
+    for item in listings['item']:
+        item_data = scrape_walmart(item)
+        data.append(item_data)
+
+    return data
 
 def generate_output_files(data, output_format):
     output_files = []
